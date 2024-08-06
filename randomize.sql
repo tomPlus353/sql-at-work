@@ -13,6 +13,10 @@ CONCAT(
 ) AS random_email
 FROM (SELECT id FROM admins UNION SELECT id FROM users UNION SELECT id FROM members) AS combined_ids;
 
+ -- Update admins table, excluding admin@admin.com
+ INSERT INTO admins (admin_role_id,display_name,email, password)
+ VALUES (1, "Dummy Admin", "admin@admin.com","$2a$12$lBTSyiZSjK6hspFjASfW3.GZZsNeSDkHdt9UAKIEp2AEsEwg.qlXa");
+
 -- Update admins table, excluding admin@admin.com
 UPDATE admins t
 JOIN temp_emails te ON t.id = te.id
