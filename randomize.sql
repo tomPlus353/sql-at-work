@@ -17,6 +17,7 @@ FROM (SELECT id FROM admins UNION SELECT id FROM users UNION SELECT id FROM memb
  INSERT INTO admins (admin_role_id,display_name,email, password)
  VALUES (1, "Dummy Admin", "admin@admin.com","$2a$12$lBTSyiZSjK6hspFjASfW3.GZZsNeSDkHdt9UAKIEp2AEsEwg.qlXa");
 
+
 -- Update admins table, excluding admin@admin.com
 UPDATE admins t
 JOIN temp_emails te ON t.id = te.id
@@ -28,11 +29,36 @@ UPDATE users u
 JOIN temp_emails te ON u.id = te.id
 SET u.email = te.email;
 
+-- Add kanesa test account
+INSERT INTO `users`(
+    `belong_company_id`,
+    `user_role_id`,
+    `display_name`,
+    `email`,
+    `password`,
+    `created_at`,
+    `updated_at`
+)
+VALUES(
+    61,
+    1,
+    'カネサPのテスト',
+    'hiroto.ito@kanesa-p.com',
+    '$2a$12$euuZh5FIPZ2RIHrJUAKK3e8IbdyJm7adP6TEj.GI2SvZLVjPDDm3m'
+    NOW(),
+    NOW()
+);
+
+
+
 -- Update members table
 UPDATE members m
 JOIN temp_emails te ON m.id = te.id
 SET m.email = te.email,
 m.line_id = NULL;
+
+
+
 
 -- Drop temporary table
 DROP TEMPORARY TABLE temp_emails;
