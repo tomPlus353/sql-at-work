@@ -24,3 +24,10 @@ source randomize.sql; -- path to randomize script
 ```bash
 mysqldump -u root -p NEW_DB_NAME > db_file_name.sql
 ```
+
+### Step 4
+- Zip the final sql file
+
+```bash
+zip newziparchive.zip db_file_name.sql 
+```
