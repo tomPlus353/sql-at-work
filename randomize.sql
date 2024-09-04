@@ -11,7 +11,7 @@ CONCAT(
   LCASE(SUBSTR(MD5(RAND()), 1, 8)), '@', 
   LCASE(SUBSTR(MD5(RAND()), 1, 5)), '.com'
 ) AS random_email
-FROM (SELECT id FROM admins UNION SELECT id FROM users UNION SELECT id FROM members) AS combined_ids;
+FROM (SELECT id FROM admins UNION SELECT id FROM users UNION SELECT id FROM members UNION SELECT id FROM customer_search_preferences) AS combined_ids;
 
  -- Update admins table, excluding admin@admin.com
  INSERT INTO admins (admin_role_id,display_name,email, password)
@@ -44,7 +44,7 @@ VALUES(
     1,
     'カネサPのテスト',
     'hiroto.ito@kanesa-p.com',
-    '$2a$12$euuZh5FIPZ2RIHrJUAKK3e8IbdyJm7adP6TEj.GI2SvZLVjPDDm3m'
+    '$2a$12$euuZh5FIPZ2RIHrJUAKK3e8IbdyJm7adP6TEj.GI2SvZLVjPDDm3m',
     NOW(),
     NOW()
 );
@@ -57,6 +57,10 @@ JOIN temp_emails te ON m.id = te.id
 SET m.email = te.email,
 m.line_id = NULL;
 
+-- Update customer search pref table
+UPDATE customer_search_preferences c
+JOIN temp_emails te ON c.id = te.id
+SET c.customer_email = te.email;
 
 
 
